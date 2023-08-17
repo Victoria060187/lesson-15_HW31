@@ -1,0 +1,15 @@
+.container {
+    text-align: center;
+    font-size: 24px;
+}
+
+.emoji {
+    display: inline-block;
+    font-size: 32px;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.vote-count {
+    font-size: 18px;
+}
