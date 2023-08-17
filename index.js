@@ -30,4 +30,12 @@ const options = [
     }
   }
   
+  document.getElementById('container').addEventListener('click', event => {
+    const target = event.target;
+    if (target.classList.contains('emoji')) {
+      const emojiIndex = Array.from(target.parentNode.children).indexOf(target);
+      vote(emojiIndex);
+    }
+  });
+  
   window.onload = updateResults;
