@@ -6,36 +6,41 @@ const options = [
     { emoji: '😕', count: 0 }
   ];
   
-  function vote(index) {
-    options[index].count++;
-    updateResults();
-  }
-  
-  function updateResults() {
+  document.addEventListener('DOMContentLoaded', function () {
     const resultsContainer = document.getElementById('results');
-    resultsContainer.innerHTML = '';
   
-    for (let i = 0; i < options.length; i++) {
-      const emojiElement = document.createElement('div');
-      emojiElement.classList.add('emoji');
-      emojiElement.textContent = options[i].emoji;
+    resultsContainer.addEventListener('click', function (event) {
+      const emojiElement = event.target.closest('.emoji');
+      if (!emojiElement) return;
   
-      const voteCount = document.createElement('span');
-      voteCount.classList.add('vote-count');
-      voteCount.textContent = options[i].count;
-      emojiElement.appendChild(voteCount);
+      const index = parseInt(emojiElement.getAttribute('data-index'));
+      if (isNaN(index)) return;
   
-      emojiElement.addEventListener('click', () => vote(i));
-      resultsContainer.appendChild(emojiElement);
+      vote(index);
+    });
+  
+    function vote(index) {
+      options[index].count++;
+      updateResults();
     }
-  }
   
-  document.getElementById('container').addEventListener('click', event => {
-    const target = event.target;
-    if (target.classList.contains('emoji')) {
-      const emojiIndex = Array.from(target.parentNode.children).indexOf(target);
-      vote(emojiIndex);
+    function updateResults() {
+      resultsContainer.innerHTML = '';
+  
+      for (let i = 0; i < options.length; i++) {
+        const emojiElement = document.createElement('div');
+        emojiElement.classList.add('emoji');
+        emojiElement.setAttribute('data-index', i);
+        emojiElement.textContent = options[i].emoji;
+  
+        const voteCount = document.createElement('span');
+        voteCount.classList.add('vote-count');
+        voteCount.textContent = options[i].count;
+        emojiElement.appendChild(voteCount);
+  
+        resultsContainer.appendChild(emojiElement);
+      }
     }
+  
+    updateResults();
   });
-  
-  window.onload = updateResults;
